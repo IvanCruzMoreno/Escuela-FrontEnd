@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnoService } from 'src/app/services/alumno.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-alumnos-form',
   templateUrl: './alumnos-form.component.html',
@@ -33,7 +35,7 @@ export class AlumnosFormComponent implements OnInit {
   public crear(): void {
     this.service.crear(this.alumno).subscribe( alumnoRespuesta => {
       console.log(alumnoRespuesta);
-      alert(`Alumno ${alumnoRespuesta.nombre} creado con exito`);
+      Swal.fire('Nuevo',`Alumno ${alumnoRespuesta.nombre} creado con exito`, 'success');
       this.router.navigate(['/alumnos']);
     },
     errorRespuesta => {
@@ -47,7 +49,7 @@ export class AlumnosFormComponent implements OnInit {
   public editar(): void {
     this.service.editar(this.alumno).subscribe( alumnoRespuesta => {
       console.log(alumnoRespuesta);
-      alert(`Alumno ${alumnoRespuesta.nombre} editado con exito`);
+      Swal.fire('Modificado',`Alumno ${alumnoRespuesta.nombre} editado con exito`, 'success');
       this.router.navigate(['/alumnos']);
     },
     errorRespuesta => {

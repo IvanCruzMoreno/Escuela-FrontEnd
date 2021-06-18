@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnoService } from 'src/app/services/alumno.service';
 
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-alumnos',
@@ -25,12 +25,24 @@ export class AlumnosComponent implements OnInit {
   }
 
   public eliminar(alumno: Alumno): void {
-    if(confirm(`¿Seguro que quieres eliminar a ${alumno.nombre}?`)){
-      this.service.eliminar(alumno.id).subscribe( () => {
-        this.alumnos = this.alumnos.filter( alumnoLista => alumnoLista !== alumno);
-        alert(`Alumno ${alumno.nombre} eliminado con exito`)
-      });
-    }
+
+    Swal.fire({
+      title: `¿Seguro que quieres eliminar a ${alumno.nombre}?`,
+      text: "No se podra recuperar la información!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminalo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.service.eliminar(alumno.id).subscribe( () => {
+          this.alumnos = this.alumnos.filter( alumnoLista => alumnoLista !== alumno);
+          Swal.fire('Eliminado',`Alumno ${alumno.nombre} eliminado con exito`, 'success')
+        });
+      }
+    })
+
   }
 
 }
