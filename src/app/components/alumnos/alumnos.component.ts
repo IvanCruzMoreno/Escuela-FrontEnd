@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnoService } from 'src/app/services/alumno.service';
 
@@ -14,14 +15,32 @@ export class AlumnosComponent implements OnInit {
   titulo: string = 'Lista de alumnos';
   alumnos: Alumno[] = [];
 
+  totalRegistros = 0;
+  totalPorPagina = 4;
+  paginaActual = 0;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
   constructor(private service: AlumnoService) { }
 
   ngOnInit(): void {
+    this.calculatePage();
+  }
 
-    this.service.listar().subscribe(alumnos => {
-      this.alumnos = alumnos;    
-    });
+  public paginar(event: PageEvent): void{
+    this.paginaActual = event.pageIndex;
+    this.totalPorPagina = event.pageSize;
     
+    this.calculatePage();
+  }
+
+  public calculatePage(){
+    const currentPage = this.paginaActual.toString();
+    const sizeForPage = this.totalPorPagina.toString();
+
+    this.service.listarPaginas(currentPage, sizeForPage).subscribe(json => {
+      this.alumnos = json.content as Alumno[];
+      this.totalRegistros = json.totalElements as number;    
+    });
   }
 
   public eliminar(alumno: Alumno): void {
@@ -37,7 +56,8 @@ export class AlumnosComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.service.eliminar(alumno.id).subscribe( () => {
-          this.alumnos = this.alumnos.filter( alumnoLista => alumnoLista !== alumno);
+          //this.alumnos = this.alumnos.filter( alumnoLista => alumnoLista !== alumno);
+          this.calculatePage();
           Swal.fire('Eliminado',`Alumno ${alumno.nombre} eliminado con exito`, 'success')
         });
       }
