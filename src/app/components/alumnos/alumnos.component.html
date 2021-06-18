@@ -1,8 +1,14 @@
 <div class="card text-white bg-dark mb-3">
     <div class="card-header">{{titulo}}</div>
     <div class="card-body">
+        
         <button type="button" class="btn btn-outline-light" routerLink="/alumnos/form">Crear</button>
-        <table class="table table-dark table-hover">
+       
+        <div class="alert alert-info" *ngIf="alumnos && alumnos.length==0">
+            No hay alumnos en el sistema
+        </div>
+
+        <table class="table table-dark table-hover" *ngIf="alumnos && alumnos.length>0">
 
             <thead>
                 <tr>
