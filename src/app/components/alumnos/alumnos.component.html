@@ -12,6 +12,7 @@
                     <th>email</th>
                     <th>creado en</th>
                     <th>Editar</th>
+                    <th>Eliminar</th>
                 </tr>
             </thead>
 
@@ -25,6 +26,11 @@
                     <td>
                         <button type="button" class="btn btn-outline-success" [routerLink]="['/alumnos/form',alumno.id]">
                             editar
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-warning" (click)="eliminar(alumno)">
+                            eliminar
                         </button>
                     </td>
                 </tr>
