@@ -12,6 +12,7 @@ export class AlumnosFormComponent implements OnInit {
 
   titulo: string = 'Crear alumnos';
   alumno: Alumno = new Alumno();
+  error: any;
 
   constructor(private service: AlumnoService, private route: Router) { }
 
@@ -23,6 +24,12 @@ export class AlumnosFormComponent implements OnInit {
       console.log(alumnoRespuesta);
       alert(`Alumno ${alumnoRespuesta.nombre} creado con exito`);
       this.route.navigate(['/alumnos']);
+    },
+    errorRespuesta => {
+      if(errorRespuesta.status === 400){
+        this.error = errorRespuesta.error;
+        console.log(this.error);
+      }
     });
   }
 }
