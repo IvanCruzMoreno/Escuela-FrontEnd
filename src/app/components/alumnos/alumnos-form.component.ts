@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { AlumnoService } from 'src/app/services/alumno.service';
 
@@ -14,16 +14,27 @@ export class AlumnosFormComponent implements OnInit {
   alumno: Alumno = new Alumno();
   error: any;
 
-  constructor(private service: AlumnoService, private route: Router) { }
+  constructor(private service: AlumnoService, 
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe( params => {
+      const id: number = +params.get('id');
+      if(id){
+        this.service.ver(id).subscribe(alumnoRespuesta => {
+          this.alumno = alumnoRespuesta;
+        });
+      }
+    });
+
   }
 
   public crear(): void {
     this.service.crear(this.alumno).subscribe( alumnoRespuesta => {
       console.log(alumnoRespuesta);
       alert(`Alumno ${alumnoRespuesta.nombre} creado con exito`);
-      this.route.navigate(['/alumnos']);
+      this.router.navigate(['/alumnos']);
     },
     errorRespuesta => {
       if(errorRespuesta.status === 400){
@@ -32,4 +43,20 @@ export class AlumnosFormComponent implements OnInit {
       }
     });
   }
+
+  public editar(): void {
+    this.service.editar(this.alumno).subscribe( alumnoRespuesta => {
+      console.log(alumnoRespuesta);
+      alert(`Alumno ${alumnoRespuesta.nombre} editado con exito`);
+      this.router.navigate(['/alumnos']);
+    },
+    errorRespuesta => {
+      if(errorRespuesta.status === 400){
+        this.error = errorRespuesta.error;
+        console.log(this.error);
+      }
+    });
+  }
+
+
 }
