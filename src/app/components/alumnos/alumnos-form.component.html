@@ -25,6 +25,12 @@
                     {{error.email}}
                 </div>
             </div>
+            <div class="form-group">
+                <div class="mb-3">
+                    <label for="formFileSm" class="form-label">Seleccionar Foto</label>
+                    <input class="form-control form-control-sm" id="formFileSm" type="file" (change)="seleccionarFoto($event)">
+                </div>
+            </div>
             <div class="form-group my-3">
                 <button type="button" class="btn btn-outline-primary" (click)="entity.id? editar(): crear()">
                     {{ entity.id? 'Editar' : 'Crear' }}
