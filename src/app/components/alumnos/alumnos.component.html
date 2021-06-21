@@ -4,11 +4,11 @@
         
         <button type="button" class="btn btn-outline-light" routerLink="/alumnos/form">Crear</button>
        
-        <div class="alert alert-info" *ngIf="alumnos && alumnos.length==0">
+        <div class="alert alert-info" *ngIf="lista && lista.length==0">
             No hay alumnos en el sistema
         </div>
 
-        <table class="table table-dark table-hover" *ngIf="alumnos && alumnos.length>0">
+        <table class="table table-dark table-hover" *ngIf="lista && lista.length>0">
 
             <thead>
                 <tr>
@@ -23,7 +23,7 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let alumno of alumnos">
+                <tr *ngFor="let alumno of lista">
                     <td>{{alumno.id}}</td>
                     <td>{{alumno.nombre}}</td>
                     <td>{{alumno.apellido}}</td>
