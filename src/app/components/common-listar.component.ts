@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 
 import { Generic } from '../models/generic';
@@ -6,7 +6,7 @@ import { CommonService } from '../services/common.service';
 
 import Swal from 'sweetalert2';
 
-
+@Directive()
 export abstract class CommonListarComponent<E extends Generic, S extends CommonService<E>> implements OnInit {
 
   titulo: string;
