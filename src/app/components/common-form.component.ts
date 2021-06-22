@@ -26,6 +26,7 @@ export abstract class CommonFormComponent<E extends Generic, S extends CommonSer
         this.service.ver(id).subscribe(respuesta => {
           this.entity = respuesta;
         });
+        this.titulo = `Editar ${this.nombreEntity}`;
       }
     });
 

@@ -19,6 +19,7 @@ import { AlumnosFormComponent } from './components/alumnos/alumnos-form.componen
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { CursosFormComponent } from './components/cursos/cursos-form.component';
+import { ExamenesFormComponent } from './components/examenes/examenes-form.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CursosFormComponent } from './components/cursos/cursos-form.component';
     CursosComponent,
     ExamenesComponent,
     AlumnosFormComponent,
-    CursosFormComponent
+    CursosFormComponent,
+    ExamenesFormComponent
   ],
   imports: [
     BrowserModule,
