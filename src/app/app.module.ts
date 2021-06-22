@@ -18,6 +18,7 @@ import {RespuestaService} from './services/respuesta.service';
 import { AlumnosFormComponent } from './components/alumnos/alumnos-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { CursosFormComponent } from './components/cursos/cursos-form.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     AlumnosComponent,
     CursosComponent,
     ExamenesComponent,
-    AlumnosFormComponent
+    AlumnosFormComponent,
+    CursosFormComponent
   ],
   imports: [
     BrowserModule,
