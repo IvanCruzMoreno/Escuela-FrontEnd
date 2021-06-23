@@ -4,6 +4,7 @@
         <button type="button" class="btn btn-outline-light" routerLink="/examenes">Volver</button>
 
         <form action="">
+            
             <div class="form-group my-3">
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" class="form-control" [(ngModel)]="entity.nombre">
@@ -11,7 +12,37 @@
                     {{error.nombre}}
                 </div>
             </div>
-            
+
+            <div class="form-group">
+                <label for="asignaturasPadre">
+                    Asignatura Padre
+                </label>
+                <select [compareWith]="compararAsignatura" (change)="cargarHijos()" [(ngModel)]="entity.asignaturaPadre" class="form-select" name="asignaturasPadre" id="asignaturasPadre">
+                    <option [ngValue]="undefined">--- Seleccione una asignatura ---</option>
+                    <option *ngFor="let asignatura of asignaturasPadre" [ngValue]="asignatura">
+                        {{asignatura.nombre}}
+                    </option>
+                </select>
+                <div class="alert alert-danger" *ngIf="error && error.asignaturaPadre">
+                    {{error.asignaturaPadre}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="asignaturasHija">
+                    Asignatura Hija
+                </label>
+                <select [compareWith]="compararAsignatura" [(ngModel)]="entity.asignaturaHija" class="form-select" name="asignaturasHija" id="asignaturasHija">
+                    <option [ngValue]="undefined">--- Seleccione una asignatura ---</option>
+                    <option *ngFor="let asignatura of asignaturasHija" [ngValue]="asignatura">
+                        {{asignatura.nombre}}
+                    </option>
+                </select>
+                <div class="alert alert-danger" *ngIf="error && error.asignaturaHija">
+                    {{error.asignaturaHija}}
+                </div>
+            </div>
+
             <div class="form-group my-3">
                 <button type="button" class="btn btn-outline-primary" (click)="entity.id? editar(): crear()">
                     {{ entity.id? 'Editar' : 'Crear' }}
