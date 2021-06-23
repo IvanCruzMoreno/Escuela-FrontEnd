@@ -31,13 +31,9 @@ export class ExamenesFormComponent extends CommonFormComponent<Examen, ExamenSer
       if(id){
         this.service.ver(id).subscribe(respuesta => {
           this.entity = respuesta;
+          this.cargarHijos();
         });
         this.titulo = `Editar ${this.nombreEntity}`;
-
-        this.service.findAllAsignatura().subscribe( asignaturaRespuesta => {
-          this.asignaturasHija = asignaturaRespuesta.filter( asignaturaRespuesta => 
-            asignaturaRespuesta.padre && asignaturaRespuesta.padre.id === this.entity.asignaturaPadre.id);
-        });
       }
     });
 

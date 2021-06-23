@@ -14,6 +14,7 @@
                 <tr>
                     <th>id</th>
                     <th>nombre</th>
+                    <th>asignaturas</th>
                     <th>creado en</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -24,6 +25,7 @@
                 <tr *ngFor="let examen of lista">
                     <td>{{examen.id}}</td>
                     <td>{{examen.nombre}}</td>
+                    <td>{{examen.asignaturaPadre.nombre}} -> {{examen.asignaturaHija.nombre}}</td>
                     <td>{{examen.createAt | date}}</td>
                     <td>
                         <button type="button" class="btn btn-outline-success" [routerLink]="['/examenes/form',examen.id]">
