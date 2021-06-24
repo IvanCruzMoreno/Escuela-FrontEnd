@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Asignatura } from 'src/app/models/asignatura';
 import { Examen } from 'src/app/models/examen';
+import { Pregunta } from 'src/app/models/pregunta';
 import { ExamenService } from 'src/app/services/examen.service';
+import Swal from 'sweetalert2';
 import { CommonFormComponent } from '../common-form.component';
 
 @Component({
@@ -43,6 +45,24 @@ export class ExamenesFormComponent extends CommonFormComponent<Examen, ExamenSer
     });
   }
 
+  public crear(): void {
+    if(this.entity.preguntas.length === 0){
+      Swal.fire('Error Preguntas', 'Examen debe tener preguntas', 'error');
+      return;
+    }
+    this.eliminarPreguntasVacias();
+    super.crear();
+  }
+
+  public editar(): void {
+    if(this.entity.preguntas.length === 0){
+      Swal.fire('Error Preguntas', 'Examen debe tener preguntas', 'error');
+      return;
+    }
+    this.eliminarPreguntasVacias();
+    super.editar();
+  }
+
   cargarHijos(): void {
     this.asignaturasHija = this.entity.asignaturaPadre? this.entity.asignaturaPadre.hijos : [];
   }
@@ -52,5 +72,25 @@ export class ExamenesFormComponent extends CommonFormComponent<Examen, ExamenSer
       return true;
     }
     return (a1 === null || a1 === undefined || a2 === null || a2 === undefined)? false: a1.id === a2.id;
+  }
+
+  agregarPregunta(): void {
+    this.entity.preguntas.push(new Pregunta());
+  }
+
+  asignarTexto(pregunta: Pregunta, event): void {
+    pregunta.texto = event.target.value as string;
+    console.log(this.entity);
+  }
+
+  eliminarPregunta(pregunta): void {
+    this.entity.preguntas = this.entity.preguntas.filter( preguntaRespuesta =>
+      preguntaRespuesta.texto !== pregunta.texto
+    );
+  }
+
+  eliminarPreguntasVacias(): void {
+    this.entity.preguntas = this.entity.preguntas.filter( preguntaRespuesta => 
+      preguntaRespuesta.texto != null && preguntaRespuesta.texto.length > 0);
   }
 }
