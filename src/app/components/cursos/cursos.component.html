@@ -15,6 +15,7 @@
                     <th>id</th>
                     <th>nombre</th>
                     <th>alumnos</th>
+                    <th>examenes</th>
                     <th>creado en</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
@@ -28,6 +29,11 @@
                     <td>
                         <button class="btn btn-outline-info" [routerLink]="['/cursos/asignar-alumnos', curso.id]">
                             añadir ({{curso.alumnos.length}})
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-info" [routerLink]="['/cursos/asignar-examenes', curso.id]">
+                            añadir ({{curso.examenes.length}})
                         </button>
                     </td>
                     <td>{{curso.createAt | date}}</td>

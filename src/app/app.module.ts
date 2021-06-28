@@ -12,6 +12,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import { AppComponent } from './app.component';
 import { AlumnosComponent } from './components/alumnos/alumnos.component';
@@ -28,6 +29,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { CursosFormComponent } from './components/cursos/cursos-form.component';
 import { ExamenesFormComponent } from './components/examenes/examenes-form.component';
 import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.component';
+import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.com
     AlumnosFormComponent,
     CursosFormComponent,
     ExamenesFormComponent,
-    AsignarAlumnosComponent
+    AsignarAlumnosComponent,
+    AsignarExamenesComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.com
     MatButtonModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule
   ],
   providers: [
     AlumnoService,
