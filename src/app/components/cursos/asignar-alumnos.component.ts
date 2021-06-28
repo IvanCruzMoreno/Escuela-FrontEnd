@@ -1,5 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
@@ -19,6 +21,14 @@ export class AsignarAlumnosComponent implements OnInit {
   mostrarColumnas: string[] = ['nombre', 'apellido', 'seleccion'];
   alumnosSeleccionados: SelectionModel<Alumno> = new SelectionModel<Alumno>(true, []);
 
+  cursoAlumnos: Alumno[] = [];
+  mostrarColumnasAlumnos: string[] = ['id','nombre', 'apellido', 'email', 'eliminar'];
+  tabIndex = 0;
+
+  dataSource: MatTableDataSource<Alumno>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  pageSizeOptions = [3, 5, 10, 20, 50];
+
   constructor(private route: ActivatedRoute,
               private cursoService: CursoService,
               private alumnoService: AlumnoService) { }
@@ -26,8 +36,18 @@ export class AsignarAlumnosComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe( params => {
       const id : number = +params.get('id');
-      this.cursoService.ver(id).subscribe( cursoRespuesta => this.curso = cursoRespuesta);
+      this.cursoService.ver(id).subscribe( cursoRespuesta => {
+        this.curso = cursoRespuesta;
+        this.cursoAlumnos = this.curso.alumnos;
+        this.iniciarPaginador();
+      });
     });
+  }
+
+  iniciarPaginador(): void {
+    this.dataSource = new MatTableDataSource<Alumno>(this.cursoAlumnos);
+    this.dataSource.paginator = this.paginator;
+    this.paginator._intl.itemsPerPageLabel = 'Registros por pagina';
   }
 
   filtrar(nombre: string): void {
@@ -38,7 +58,7 @@ export class AsignarAlumnosComponent implements OnInit {
       this.alumnoService.filtrarPorNombre(nombre).subscribe( alumnosRespuesta => {
         this.alumnosMostrar = alumnosRespuesta.filter(alumnoR => {
           let isInCurso = true;
-          this.curso.alumnos.forEach(cursoAlumno => {
+          this.cursoAlumnos.forEach(cursoAlumno => {
             if(alumnoR.id === cursoAlumno.id){
               isInCurso = false;
             }
@@ -66,7 +86,10 @@ export class AsignarAlumnosComponent implements OnInit {
     console.log(this.alumnosSeleccionados.selected);
     this.cursoService.asignarAlumno(this.curso, this.alumnosSeleccionados.selected)
     .subscribe( cursoRespuesta => {
+      this.tabIndex = 2;
       Swal.fire('Alumnos asignados', 'Con exito!', 'success');
+      this.cursoAlumnos = this.cursoAlumnos.concat(this.alumnosSeleccionados.selected);
+      this.iniciarPaginador();
       this.alumnosMostrar = [];
       this.alumnosSeleccionados.clear();
     }, 
@@ -80,5 +103,28 @@ export class AsignarAlumnosComponent implements OnInit {
         }
       }
     });
+  }
+
+  eliminarAlumno(alumno: Alumno): void {
+
+    Swal.fire({
+      title: `¿Seguro que quieres eliminar a ${alumno.nombre} de ${this.curso.nombre}?`,
+      text: "No se podra recuperar la información!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminalo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cursoService.eliminarAlumno(this.curso, alumno).subscribe(cursoRespuesta => {
+          this.cursoAlumnos = this.cursoAlumnos.filter( alumnoR => alumnoR.id !== alumno.id);
+          this.iniciarPaginador();
+          Swal.fire('Eliminado', `Alumno ${alumno.nombre} eliminado del curso ${this.curso.nombre}`, 'success');
+        });
+      }
+    })
+
+    
   }
 }

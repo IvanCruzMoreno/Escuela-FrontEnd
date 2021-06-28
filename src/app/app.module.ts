@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { AppComponent } from './app.component';
 import { AlumnosComponent } from './components/alumnos/alumnos.component';
@@ -52,7 +53,8 @@ import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.com
     MatCheckboxModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatCardModule
+    MatCardModule,
+    MatTabsModule
   ],
   providers: [
     AlumnoService,
