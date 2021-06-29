@@ -17,11 +17,15 @@ import Swal from 'sweetalert2';
 export class AsignarExamenesComponent implements OnInit {
 
   curso: Curso;
+  examenesCurso: Examen[] = [];
+
   autocompleteControl = new FormControl();
   examenesFiltrados: Examen[] = [];
   examenesAsignados: Examen[] = [];
 
   mostrarColumnas: string[] = ['nombre', 'asignatura', 'quitar'];
+  mostrarColumnasExamenes: string[] = ['id', 'nombre', 'asignaturas', 'eliminar'];
+  tabIndex = 0;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -31,7 +35,10 @@ export class AsignarExamenesComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe( params => {
       const id: number = +params.get('id');
-      this.cursoService.ver(id).subscribe( cursoR => this.curso = cursoR);
+      this.cursoService.ver(id).subscribe( cursoR => {
+        this.curso = cursoR;
+        this.examenesCurso = this.curso.examenes;
+      });
     });
 
     this.autocompleteControl.valueChanges.pipe(
@@ -62,7 +69,7 @@ export class AsignarExamenesComponent implements OnInit {
 
   private existe(id: number): boolean {
     let existe = false;
-    this.examenesAsignados.concat(this.curso.examenes).forEach( examenesR => {
+    this.examenesAsignados.concat(this.examenesCurso).forEach( examenesR => {
       if(id == examenesR.id){
         existe = true;
       }
@@ -74,5 +81,35 @@ export class AsignarExamenesComponent implements OnInit {
     this.examenesAsignados = this.examenesAsignados.filter(examenR => {
       examen.id !== examenR.id
     });
+  }
+
+  asignar(): void {
+    console.log(this.examenesAsignados);
+    this.cursoService.asignarExamenes(this.curso, this.examenesAsignados).subscribe( cursoR => {
+      this.examenesCurso = this.examenesCurso.concat(this.examenesAsignados);
+      this.examenesAsignados = [];
+      Swal.fire('Asignados', `Examenes asignados con exito al curso`, 'success');
+      this.tabIndex = 2;
+    });
+  }
+
+  eliminarExamenDelCurso(examen: Examen): void {
+    Swal.fire({
+      title: `¿Seguro que quieres eliminar a ${examen.nombre} de ${this.curso.nombre}?`,
+      text: "No se podra recuperar la información!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminalo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.cursoService.eliminarExamen(this.curso, examen).subscribe(cursoRespuesta => {
+          this.examenesCurso = this.examenesCurso.filter( examenR => examenR.id !== examen.id);
+          //this.iniciarPaginador();
+          Swal.fire('Eliminado', `Examen ${examen.nombre} eliminado del curso ${this.curso.nombre}`, 'success');
+        });
+      }
+    })
   }
 }
