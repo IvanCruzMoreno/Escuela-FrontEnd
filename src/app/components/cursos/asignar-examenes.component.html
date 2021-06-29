@@ -58,7 +58,7 @@
 
             <mat-tab label="Examenes">
 
-                <table mat-table [dataSource]="examenesCurso" class="mat-elevation-z8 mx-3" style="width: 75%;">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mx-3" style="width: 75%;">
 
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef> Id </th>
@@ -89,7 +89,10 @@
                     <tr mat-header-row *matHeaderRowDef="mostrarColumnasExamenes"></tr>
                     <tr mat-row *matRowDef="let row; columns: mostrarColumnasExamenes;"></tr>
                 </table>
-                
+
+                <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons>
+                </mat-paginator>
+
             </mat-tab>
 
         </mat-tab-group>
