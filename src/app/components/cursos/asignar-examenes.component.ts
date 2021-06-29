@@ -53,7 +53,7 @@ export class AsignarExamenesComponent implements OnInit {
     ).subscribe(examenes => this.examenesFiltrados = examenes);
   }
 
-  iniciarPaginador(){
+  private iniciarPaginador(){
     this.dataSource = new MatTableDataSource<Examen>(this.examenesCurso);
     this.dataSource.paginator = this.paginator;
     this.paginator._intl.itemsPerPageLabel = 'Registro por pagina';
@@ -70,13 +70,13 @@ export class AsignarExamenesComponent implements OnInit {
       this.examenesAsignados = this.examenesAsignados.concat(examen);
 
       console.log(this.examenesAsignados);
-      
-      this.autocompleteControl.setValue('');
-      event.option.deselect();
-      event.option.focus();
+    
     }else{
       Swal.fire('Error', `El examen ${examen.nombre} ya esta asignado al curso`, 'error');
     }
+    this.autocompleteControl.setValue('');
+    event.option.deselect();
+    event.option.focus();
   }
 
   private existe(id: number): boolean {
