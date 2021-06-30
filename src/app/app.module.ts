@@ -30,6 +30,7 @@ import { CursosFormComponent } from './components/cursos/cursos-form.component';
 import { ExamenesFormComponent } from './components/examenes/examenes-form.component';
 import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.component';
 import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.component';
+import { ResponderExamenComponent } from './components/alumnos/responder-examen.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.c
     CursosFormComponent,
     ExamenesFormComponent,
     AsignarAlumnosComponent,
-    AsignarExamenesComponent
+    AsignarExamenesComponent,
+    ResponderExamenComponent
   ],
   imports: [
     BrowserModule,
