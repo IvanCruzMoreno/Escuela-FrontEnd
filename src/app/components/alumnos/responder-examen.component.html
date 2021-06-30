@@ -37,7 +37,7 @@
             <ng-container matColumnDef="responder">
                 <th mat-header-cell *matHeaderCellDef> Responder </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-stroked-button color="warn" [disabled]="element.respondido">
+                    <button mat-stroked-button color="warn" [disabled]="element.respondido" (click)="responderExamen(element)">
                         {{ element.respondido? 'Respondido': 'Responder' }}
                     </button>
                 </td>

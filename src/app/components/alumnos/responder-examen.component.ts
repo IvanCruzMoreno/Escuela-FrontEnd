@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +8,7 @@ import { Curso } from 'src/app/models/curso';
 import { Examen } from 'src/app/models/examen';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { CursoService } from 'src/app/services/curso.service';
+import { ResponderExamenModalComponent } from './responder-examen-modal.component';
 
 @Component({
   selector: 'app-responder-examen',
@@ -26,7 +28,8 @@ export class ResponderExamenComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private alumnoService: AlumnoService,
-    private cursoService: CursoService) { }
+    private cursoService: CursoService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
@@ -44,6 +47,18 @@ export class ResponderExamenComponent implements OnInit {
         });
 
       });
+    });
+  }
+
+  responderExamen(examen: Examen): void {
+    const modalRef = this.dialog.open(ResponderExamenModalComponent, {
+      width: '750px',
+      data: {curso: this.curso, alumno: this.alumno, exam: examen}
+    });
+
+    modalRef.afterClosed().subscribe( respuesta => {
+      console.log('Cerrado');
+      console.log(respuesta);
     });
   }
 
