@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
@@ -17,7 +19,10 @@ export class ResponderExamenComponent implements OnInit {
   curso: Curso;
   examenes: Examen[] = [];
 
-  mostrarColumnasExamenes = ['id', 'nombre', 'asignaturas', 'preguntas'];
+  mostrarColumnasExamenes = ['id', 'nombre', 'asignaturas', 'preguntas', 'responder', 'ver'];
+  dataSource: MatTableDataSource<Examen>;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  pageSizeOptions = [3, 5, 10, 20, 30];
 
   constructor(private route: ActivatedRoute,
     private alumnoService: AlumnoService,
@@ -32,7 +37,10 @@ export class ResponderExamenComponent implements OnInit {
 
         this.cursoService.obtenerCursoPorAlumnoId(this.alumno).subscribe(cursoR => {
           this.curso = cursoR;
-          this.examenes = (this.curso && this.curso.examenes)? this.curso.examenes: []; 
+          this.examenes = (this.curso && this.curso.examenes)? this.curso.examenes: [];
+          this.dataSource = new MatTableDataSource<Examen>(this.examenes);
+          this.dataSource.paginator = this.paginator;
+          this.paginator._intl.itemsPerPageLabel = 'Registros por pagina:';
         });
 
       });
