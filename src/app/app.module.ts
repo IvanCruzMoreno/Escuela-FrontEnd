@@ -34,6 +34,7 @@ import { AsignarAlumnosComponent } from './components/cursos/asignar-alumnos.com
 import { AsignarExamenesComponent } from './components/cursos/asignar-examenes.component';
 import { ResponderExamenComponent } from './components/alumnos/responder-examen.component';
 import { ResponderExamenModalComponent } from './components/alumnos/responder-examen-modal.component';
+import { VerExamenModalComponent } from './components/alumnos/ver-examen-modal.component';
 
 @NgModule({
   declarations: [
@@ -47,10 +48,12 @@ import { ResponderExamenModalComponent } from './components/alumnos/responder-ex
     AsignarAlumnosComponent,
     AsignarExamenesComponent,
     ResponderExamenComponent,
-    ResponderExamenModalComponent
+    ResponderExamenModalComponent,
+    VerExamenModalComponent
   ],
   entryComponents: [
-    ResponderExamenModalComponent
+    ResponderExamenModalComponent,
+    VerExamenModalComponent
   ],
   imports: [
     BrowserModule,

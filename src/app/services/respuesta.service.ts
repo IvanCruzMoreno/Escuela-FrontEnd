@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BASE_ENDPOINT } from '../config/app';
+import { Alumno } from '../models/alumno';
+import { Examen } from '../models/examen';
 import { Respuesta } from '../models/respuesta';
 
 @Injectable({
@@ -16,5 +18,9 @@ export class RespuestaService {
 
   public crear(respuestas: Respuesta[]): Observable<Respuesta[]> {
     return this.http.post<Respuesta[]>(this.baseEndPoint, respuestas, {headers: this.cabeceras});
+  }
+
+  public obtenerRespuestaByAlumnoAndExamen(alumno: Alumno, examen: Examen): Observable<Respuesta[]> {
+    return this.http.get<Respuesta[]>(`${this.baseEndPoint}/alumno/${alumno.id}/examen/${examen.id}`);
   }
 }
