@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
 import { Examen } from 'src/app/models/examen';
+import { Pregunta } from 'src/app/models/pregunta';
+import { Respuesta } from 'src/app/models/respuesta';
 
 @Component({
   selector: 'app-responder-examen-modal',
@@ -15,7 +17,7 @@ export class ResponderExamenModalComponent implements OnInit {
   alumno: Alumno;
   examen: Examen;
 
-  respuesta = ['jjj'];
+  respuestas: Map<number, Respuesta> = new Map<number, Respuesta>();
   
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, 
   public modalRef: MatDialogRef<ResponderExamenModalComponent>) { }
@@ -28,5 +30,20 @@ export class ResponderExamenModalComponent implements OnInit {
 
   cancelar(): void {
     this.modalRef.close();
+  }
+
+  responder(pregunta: Pregunta, event): void {
+    const texto = event.target.value as string;
+    const respuesta = new Respuesta();
+
+    respuesta.alumno = this.alumno;
+    respuesta.pregunta = pregunta;
+    respuesta.texto = texto;
+    /*
+      A map 'cause if We answer the same question twice,
+      in the map We override the previous answer.
+    */
+    this.respuestas.set(pregunta.id, respuesta);
+    console.log(this.respuestas);
   }
 }

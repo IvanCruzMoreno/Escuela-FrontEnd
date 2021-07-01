@@ -14,6 +14,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppComponent } from './app.component';
 import { AlumnosComponent } from './components/alumnos/alumnos.component';
@@ -67,7 +68,8 @@ import { ResponderExamenModalComponent } from './components/alumnos/responder-ex
     MatCardModule,
     MatTabsModule,
     MatAutocompleteModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule
   ],
   providers: [
     AlumnoService,

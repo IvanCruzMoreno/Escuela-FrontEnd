@@ -6,8 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Alumno } from 'src/app/models/alumno';
 import { Curso } from 'src/app/models/curso';
 import { Examen } from 'src/app/models/examen';
+import { Respuesta } from 'src/app/models/respuesta';
 import { AlumnoService } from 'src/app/services/alumno.service';
 import { CursoService } from 'src/app/services/curso.service';
+import { RespuestaService } from 'src/app/services/respuesta.service';
+import Swal from 'sweetalert2';
 import { ResponderExamenModalComponent } from './responder-examen-modal.component';
 
 @Component({
@@ -29,6 +32,7 @@ export class ResponderExamenComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private alumnoService: AlumnoService,
     private cursoService: CursoService,
+    private respuestaService: RespuestaService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -56,10 +60,20 @@ export class ResponderExamenComponent implements OnInit {
       data: {curso: this.curso, alumno: this.alumno, exam: examen}
     });
 
-    modalRef.afterClosed().subscribe( respuesta => {
+    modalRef.afterClosed().subscribe( (respuestasMap: Map<number, Respuesta>) => {
       console.log('Cerrado');
-      console.log(respuesta);
+      console.log(respuestasMap);
+      if(respuestasMap){
+        const respuestas: Respuesta[] = Array.from(respuestasMap.values());
+        console.log('---------------');
+        console.log(respuestas);
+        this.respuestaService.crear(respuestas).subscribe( respuestasR => {
+          examen.respondido = true;
+          Swal.fire('Respuestas enviadas', 'Con exito', 'success');
+        });
+      }
     });
+
   }
 
 }
